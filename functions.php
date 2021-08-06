@@ -17,7 +17,8 @@ if ( ! function_exists( 'ks_setup' ) ) :
 		add_theme_support( 'title-tag' );
 
 		add_theme_support( 'post-thumbnails' );
-		add_image_size( 'ks-blog-thumbs', 350, 227, true );
+		set_post_thumbnail_size( 730, 480, true ); // размер миниатюры поста по умолчанию
+		// add_image_size( 'ks-blog-thumbs', 350, 227, true );
 
 		/*
 		 * Switch default core markup for search form, comment form, and comments
@@ -188,4 +189,26 @@ class bootstrap_4_walker_nav_menu extends Walker_Nav_menu {
         
         $output .= apply_filters ( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
     }
+}
+
+// отключаем создание миниатюр файлов для указанных размеров
+add_filter( 'intermediate_image_sizes', 'ks_delete_intermediate_image_sizes' );
+function ks_delete_intermediate_image_sizes( $sizes ){
+	// размеры которые нужно удалить
+	return array_diff( $sizes, [
+		'medium_large',
+		'large',
+		'1536x1536',
+		'2048x2048',
+	] );
+}
+
+// удаляет H2 из шаблона пагинации
+add_filter('navigation_markup_template', 'my_navigation_template', 10, 2 );
+function my_navigation_template( $template, $class ){
+	return '
+	<nav class="navigation %1$s" role="navigation">
+		<div class="nav-links">%3$s</div>
+	</nav>    
+	';
 }

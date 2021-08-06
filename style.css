@@ -19,3 +19,10 @@ crisf is based on Underscores https://underscores.me/, (C) 2012-2020 Automattic,
 Underscores is distributed under the terms of the GNU GPL v2 or later.
 
 */
+.post-category {
+  display: flex;
+  align-items: baseline;
+}
+.post-category span {
+  margin-left: 7px;
+}
